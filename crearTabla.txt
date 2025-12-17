@@ -1,0 +1,32 @@
+Sub CrearBaseAccessConDatos()
+    Dim cat As Object
+    Dim conn As Object
+    Dim ruta As String
+    
+    ruta = "C:\Users\Matute\Documents\Base.accdb" ' Ajusta la ruta según tu PC
+    
+    ' Crear archivo Access
+    Set cat = CreateObject("ADOX.Catalog")
+    cat.Create "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ruta
+    
+    ' Crear tabla Clientes
+    Set conn = CreateObject("ADODB.Connection")
+    conn.Open "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ruta
+    conn.Execute "CREATE TABLE Clientes (ID AUTOINCREMENT PRIMARY KEY, Nombre TEXT(50), Correo TEXT(50), Telefono TEXT(20))"
+    
+    ' Insertar 10 registros de ejemplo
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Ana Torres','ana.torres@email.com','999111222')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Luis García','luis.garcia@email.com','999222333')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('María López','maria.lopez@email.com','999333444')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Carlos Pérez','carlos.perez@email.com','999444555')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Sofía Ramírez','sofia.ramirez@email.com','999555666')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Jorge Castillo','jorge.castillo@email.com','999666777')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Elena Rojas','elena.rojas@email.com','999777888')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Pedro Sánchez','pedro.sanchez@email.com','999888999')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Lucía Fernández','lucia.fernandez@email.com','999999000')"
+    conn.Execute "INSERT INTO Clientes (Nombre, Correo, Telefono) VALUES ('Miguel Díaz','miguel.diaz@email.com','988123456')"
+    
+    conn.Close
+    
+    MsgBox "Base.accdb creada con tabla Clientes y 10 registros de ejemplo"
+End Sub

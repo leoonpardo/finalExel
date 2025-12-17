@@ -1,0 +1,34 @@
+Sub ExportarDatosAClientesX()
+    Dim conn As Object
+    Dim hoja As Worksheet
+    Dim i As Integer, sql As String
+
+    ' Conexión a Access
+    Set conn = CreateObject("ADODB.Connection")
+    conn.Open "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Base.accdb"
+
+    ' Crear tabla ClientesX si no existe
+    On Error Resume Next
+    conn.Execute "CREATE TABLE ClientesX (ID AUTOINCREMENT PRIMARY KEY, Nombre TEXT(50), Correo TEXT(50), Telefono TEXT(20))"
+    On Error GoTo 0
+
+    ' Borrar registros existentes en ClientesX
+    On Error Resume Next
+    conn.Execute "DELETE FROM ClientesX"
+    On Error GoTo 0
+
+    ' Referencia a la hoja activa
+    Set hoja = ThisWorkbook.Sheets("Datos") ' Asegúrate que se llama así
+    i = 2 ' Empieza en la fila 2 (asumiendo fila 1 tiene encabezados)
+
+    ' Insertar registros
+    Do While hoja.Cells(i, 1).Value <> ""
+        sql = "INSERT INTO ClientesX (Nombre, Correo, Telefono) VALUES ('" & _
+              hoja.Cells(i, 1).Value & "', '" & hoja.Cells(i, 2).Value & "', '" & hoja.Cells(i, 3).Value & "')"
+        conn.Execute sql
+        i = i + 1
+    Loop
+
+    conn.Close
+    MsgBox "Datos exportados a la tabla ClientesX (registros anteriores borrados)"
+End Sub
