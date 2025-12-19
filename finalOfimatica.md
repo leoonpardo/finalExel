@@ -188,3 +188,34 @@ Private Sub CommandButton1_Click()
 End Sub
 
 ```
+
+## mandar por correo Outlook
+
+```
+Sub Enviar_Correo_Outlook_Seguro()
+
+    On Error Resume Next   ' evita que el error bloquee todo
+
+    Dim appOutlook As Object
+    Dim correo As Object
+
+    Set appOutlook = CreateObject("Outlook.Application")
+
+    If appOutlook Is Nothing Then
+        MsgBox "Outlook no está disponible en este equipo.", vbExclamation
+        Exit Sub
+    End If
+
+    Set correo = appOutlook.CreateItem(0)
+
+    With correo
+        .To = "ejemplo@gmail.com"
+        .Subject = "Reporte Automático"
+        .Body = "Correo generado desde Excel usando Visual Basic."
+        .Display   ' SOLO MOSTRAR
+    End With
+
+    MsgBox "Correo creado correctamente"
+
+End Sub
+```
